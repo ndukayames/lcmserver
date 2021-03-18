@@ -5,5 +5,6 @@ mongoose.connect(process.env.MONGODB_URI || config.connectionString, connectionO
 mongoose.Promise = global.Promise;
 
 module.exports = {
-    User: require('../users/user.model')
+    Student: require('../users/student.model'),
+    Hrc: require('../hoc_registered_courses/hrc.model')
 };

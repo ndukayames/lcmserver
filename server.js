@@ -14,7 +14,8 @@ app.use(cors());
 app.use(jwt());
 
 // api routes
-app.use('/users', require('./users/users.controller'));
+app.use('/student', require('./users/student.controller'));
+app.use('/hrc', require('./hoc_registered_courses/hrc.controller'));
 
 // global error handler
 app.use(errorHandler);

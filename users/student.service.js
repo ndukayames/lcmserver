@@ -2,25 +2,30 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
-const User = db.User;
+const Student = db.Student;
 
 module.exports = {
     authenticate,
     getAll,
-    getById,
+    getStudentById,
     create,
     update,
     delete: _delete
 };
 
-async function authenticate({ username, password }) {
-    const user = await User.findOne({ username });
-    if (user && bcrypt.compareSync(password, user.hash)) {
-        const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '7d' });
+async function authenticate({ matric_number, password }) {
+    const student = await Student.findOne({ matric_number });
+    if(student){
+      if(bcrypt.compareSync(password, student.password)) {
+        const token = jwt.sign({ sub: student.id }, config.secret, { expiresIn: '7d' });
         return {
-            ...user.toJSON(),
-            token
+          token
         };
+      }else {
+        throw "incorrect password"
+      }
+    }else {
+      throw "incorrect matric number"
     }
 }
 
@@ -28,25 +33,34 @@ async function getAll() {
     return await User.find();
 }
 
-async function getById(id) {
-    return await User.findById(id);
+async function getStudentById(id) {
+    let student = await Student.findById(id);
+    if(student) {
+      console.log("student")
+      const token = jwt.sign({ sub: student }, config.secret, { expiresIn: '7d' });
+        return {
+          token
+        };
+    }else {
+      throw "invalid login token"
+    }
 }
 
 async function create(userParam) {
     // validate
-    if (await User.findOne({ username: userParam.username })) {
-        throw 'Username "' + userParam.username + '" is already taken';
+    if (await Student.findOne({ matric_number: userParam.matric_number })) {
+        throw 'Student with matric number "' + userParam.matric_number + '" is already registered';
     }
 
-    const user = new User(userParam);
+    const student = new Student(userParam);
 
     // hash password
     if (userParam.password) {
-        user.hash = bcrypt.hashSync(userParam.password, 10);
+        student.password = bcrypt.hashSync(userParam.password, 10);
     }
 
     // save user
-    await user.save();
+    await student.save();
 }
 
 async function update(id, userParam) {
