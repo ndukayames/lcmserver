@@ -14,6 +14,6 @@ const courseSchema = new Schema({
   students : {type: [schema.Types.ObjectId], ref: "Student", required: false },
   level : { type: Number, required: true },
   date_started: { type: Date, default: Date.now }
-}) 
+})  s
 
 module.exports = mongoose.model('course', courseSchema);
