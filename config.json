@@ -1,0 +1,4 @@
+﻿{
+    "connectionString": "mongodb+srv://ndukayames:Winnerjoy1@cluster0.gwo2w.mongodb.net/lasucm?retryWrites=true&w=majority",
+    "secret": "lasucm"
+}
