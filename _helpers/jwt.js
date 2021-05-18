@@ -1,6 +1,7 @@
 const expressJwt = require('express-jwt');
 const config = require('config.json');
 const studentService = require('../users/student.service');
+const lecturerService = require('../lecturer/lecturer.service')
 
 module.exports = jwt;
 
@@ -9,18 +10,43 @@ function jwt() {
     return expressJwt({ secret, algorithms: ['HS256'], isRevoked }).unless({
         path: [
             // public routes that don't require authentication
-            '/student/register',
+            '/',
             '/student/authenticate',
-            '/hrc'
+            '/student/register',
+            '/hrc',
+            '/lecturer/create',
+            '/lecturer/authenticate'
+            // /\/student/i
+            // /\/assignments/i
+            // /\/classes/i
+            // /\/hrc/i
+            // /\/lecturer/i
+            // /\/rc/i
         ]
     });
 }
 
 async function isRevoked(req, payload, done) {
-    const user = await studentService.getStudentById(payload.sub);
-    // revoke token if user no longer exists
-    if (!user) {
-        return done(null, true);
-    }
+
+  try {
+
+    const student = await studentService.getStudentById(payload.sub);
+
     done();
+    
+  } catch (error) {
+
+    // return done(null, true);
+  }
+  try {
+
+    const lecturer = await lecturerService.getLecturerById(payload.sub);
+
+
+    done();
+  } catch (error) {
+    // return done(null, true);
+    
+  }
+  return done(null, true);
 };

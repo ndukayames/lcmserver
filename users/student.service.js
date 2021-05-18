@@ -2,15 +2,15 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
-const Student = db.Student;
+const Student = require('./student.model');
 
 module.exports = {
     authenticate,
-    getAll,
     getStudentById,
     create,
-    update,
-    delete: _delete
+    get_registered_courses,
+    check_complete_profile,
+    update_profile
 };
 
 async function authenticate({ matric_number, password }) {
@@ -29,14 +29,11 @@ async function authenticate({ matric_number, password }) {
     }
 }
 
-async function getAll() {
-    return await User.find();
-}
-
 async function getStudentById(id) {
     let student = await Student.findById(id);
     if(student) {
-      console.log("student")
+      student =  await student.toObject()
+      delete student.password
       const token = jwt.sign({ sub: student }, config.secret, { expiresIn: '7d' });
         return {
           token
@@ -46,7 +43,7 @@ async function getStudentById(id) {
     }
 }
 
-async function create(userParam) {
+async function create( userParam ) {
     // validate
     if (await Student.findOne({ matric_number: userParam.matric_number })) {
         throw 'Student with matric number "' + userParam.matric_number + '" is already registered';
@@ -63,26 +60,51 @@ async function create(userParam) {
     await student.save();
 }
 
-async function update(id, userParam) {
-    const user = await User.findById(id);
-
-    // validate
-    if (!user) throw 'User not found';
-    if (user.username !== userParam.username && await User.findOne({ username: userParam.username })) {
-        throw 'Username "' + userParam.username + '" is already taken';
+async function get_registered_courses( {_id} ) {
+  
+  try {
+    let registered_courses = await Student.findById(_id)
+    .select('registered_courses')
+    if( registered_courses.id ) { 
+      console.log("registered_courses",registered_courses)
+    } 
+    if(registered_courses.registered_courses.length < 1) {
+      console.log("less than 1 registered_courses",registered_courses)
+  
+      throw "no registered courses found"
+    } else {
+      console.log("returning registered_courses",registered_courses)
+      return registered_courses
     }
-
-    // hash password if it was entered
-    if (userParam.password) {
-        userParam.hash = bcrypt.hashSync(userParam.password, 10);
-    }
-
-    // copy userParam properties to user
-    Object.assign(user, userParam);
-
-    await user.save();
+  } catch (err) {
+    throw err
+  }
 }
 
-async function _delete(id) {
-    await User.findByIdAndRemove(id);
+async function check_complete_profile( {matric_number} ) {
+  
+  try {
+    let student = await Student.findOne({matric_number}).select('complete_profile')
+    if( student._id) {
+      return true
+    } else {
+    }
+  } catch (error) {
+    throw "request error"
+  }
+}
+
+async function update_profile (studentID,studentParam){
+  try {
+    if( studentParam.password ) {
+      studentParam.password = bcrypt.hashSync(studentParam.password, 10)
+    }
+    await Student.findByIdAndUpdate(
+      studentID,
+      { $set : studentParam},
+      { omitUndefined: true, new: true }
+    )
+  } catch (error) {
+    throw " error updating profile"
+  }
 }

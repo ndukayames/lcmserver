@@ -13,5 +13,7 @@ const lecturerSchema = new Schema({
   complete_profile: { type: Boolean, default: false},
   createdDate: { type: Date, default: Date.now }
 })
-
+lecturerSchema.virtual('fullName').get(function() {
+  return this.firstName + ' ' + this.lastName;
+});
 module.exports = mongoose.model('lecturer', lecturerSchema);

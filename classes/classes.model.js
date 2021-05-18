@@ -5,13 +5,15 @@ const courseSchema = new Schema({
   hoc: { type: Schema.Types.ObjectId, ref: "Student", required: true },
   lecturer: { type: Schema.Types.ObjectId, ref: "lecturer", required: true },
   course: { type: Schema.Types.ObjectId, ref: "registered_courses", required: true },
-  duration : { type: String, required: true },
-  h : { type: String, required: true },
-  event : { type: String, required: true },
-  students : { type: Array, required: false },
+  duration : { type: Number, required: true },
+  h : { type: String, required: true, unique: true },
+  event : { type: Number, required: true, default: 0 },
+  students : [{ type: Schema.Types.ObjectId, ref: "Student", required: false}],
+  department: {type: String, required: true},
   level : { type: Number, required: true },
   class_id : { type: String, required: true },
+  assignment: {type: Boolean, required: true},
   date_started: { type: Date, default: Date.now }
 })
 
-module.exports = mongoose.model('course', courseSchema);
+module.exports = mongoose.model('classes', courseSchema);

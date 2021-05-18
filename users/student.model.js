@@ -6,15 +6,15 @@ const Studentschema = new Schema({
     password: { type: String, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    email: { type:String, required: true },
-    phone_number: { type:String, required: true },
+    email: { type:String, required: true, unique: true, },
+    phone_number: { type:String, required: true, unique: true, },
     campus: { type:String, required: false },
     faculty: { type:String, required: false },
     department : { type:String, required: false },
     registered_courses : { type:Array, required: false },
     level: { type:Number, required: false },
-    complete_profile: { type:Boolean, default: false, required: false },
-    type: { type:String, required: false },
+    complete_profile: { type:Boolean, default: false, required: true },
+    type: { type:String, required: false, default: "student" },
     createdDate: { type: Date, default: Date.now }
 });
 

@@ -3,17 +3,16 @@ const router = express.Router();
 const studentService = require('./student.service');
 
 // routes
-router.post('/authenticate', authenticate);
-router.post('/register', register);
-router.get('/', getAll);
-router.get('/getStudentData', getStudentData);
-router.get('/:id', getById);
-router.put('/:id', update);
-router.delete('/:id', _delete);
+router.post( '/authenticate', authenticate );
+router.post( '/register', register);
+router.get( '/getStudentData', getStudentData );
+router.post( '/get-registered-courses', get_registered_courses );
+router.post( '/check-complete-profile', check_complete_profile );
+router.post('/update-profile', update_profile)
 
 module.exports = router;
 
-async function authenticate(req, res, next) {
+async function authenticate( req, res, next ) {
   try {
     let user = await studentService.authenticate(req.body)
     res.json({
@@ -29,7 +28,7 @@ async function authenticate(req, res, next) {
   }
 }
 
-async function register(req, res, next) {
+async function register( req, res, next ) {
   try {
     await studentService.create(req.body)
     res.json({
@@ -37,49 +36,75 @@ async function register(req, res, next) {
       msg: "registration successful"
     })
   } catch (error) {
-    res.status(500).send({
+    throw res.status(400).json({
       success: false,
       msg: error
     })
   }
 }
 
-function getAll(req, res, next) {
-    userService.getAll()
-        .then(users => res.json(users))
-        .catch(err => next(err));
-}
-
-async function getStudentData(req, res, next) {
+async function getStudentData( req, res, next ) {
   try {
     let student = await studentService.getStudentById(req.user.sub)
+
     res.json({
       success: true,
       msg: 'student data collected',
       result: student
     })
   } catch (error) {
-    res.sendStatus(400).send({
+    throw res.status(400).json({
       success: false,
       msg: error
     })
   }
 }
 
-function getById(req, res, next) {
-    userService.getById(req.params.id)
-        .then(user => user ? res.json(user) : res.sendStatus(404))
-        .catch(err => next(err));
+async function get_registered_courses( req, res ) {
+  //fetches student's registered courses
+  try {
+    let registered_courses = await studentService.get_registered_courses(req.body)
+    res.json({
+      success : true,
+      msg: 'success',
+      result: registered_courses
+    })
+  } catch (error) {
+    throw res.status(400).json({
+      success: false,
+      msg: error
+    })
+  }
 }
 
-function update(req, res, next) {
-    userService.update(req.params.id, req.body)
-        .then(() => res.json({}))
-        .catch(err => next(err));
+async function check_complete_profile( req, res ) {
+  try {
+    let status = await studentService.check_complete_profile(req.body)
+    res.json({
+      success : true,
+      msg: 'success',
+      result: status
+    })
+  } catch (error) {
+    throw res.status(400).json({
+      success: false,
+      msg: error
+    })
+  }
 }
 
-function _delete(req, res, next) {
-    userService.delete(req.params.id)
-        .then(() => res.json({}))
-        .catch(err => next(err));
+async function update_profile( req, res ) {
+  try {
+    let status = await studentService.update_profile(req.user.sub,req.body)
+    res.json({
+      success : true,
+      msg: 'success',
+      result: status
+    })
+  } catch (error) {
+    throw res.status(400).json({
+      success: false,
+      msg: error
+    })
+  }
 }
