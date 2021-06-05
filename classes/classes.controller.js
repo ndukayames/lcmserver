@@ -190,7 +190,7 @@ async function check_course_attendance( req, res ) {
 }
 
 async function get_dept_attendance_log( req, res ) {
-  console.log(req.user.sub,req.body)
+
   try {
     let log = await classService.get_dept_attendance_log(req.user.sub,req.body)
     res.json({

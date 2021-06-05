@@ -2,24 +2,34 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const jwt = require('_helpers/jwt');
 const errorHandler = require('_helpers/error-handler');
+var bodyParser = require('body-parser')
 
-app.use(bodyParser.urlencoded({ extended: false }));
+
+
+
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 app.use(bodyParser.json());
-app.use(cors());
+
+app.use(cors({
+  origin: '*'
+}));
+
 
 // use JWT auth to secure the api
 app.use(jwt());
 
 // api routes
+console.log(1)
 app.use('/student', require('./users/student.controller'));
 // app.use('/hrc', require('./hoc_registered_courses/hrc.controller'));
 app.use('/rc', require('./registered_courses/registered_courses.controller'));
 app.use('/lecturer', require('./lecturer/lecturer.controller'));
-app.use('/classes', require('./classes/classes.controller'))
-app.use('/assignment', require('./assignments/assignments.controller'))
+app.use('/classes', require('./classes/classes.controller'));
+app.use('/assignment', require('./assignments/assignments.controller'));
+app.use('/new-assignment', express.static('new-assignment')); 
+app.use('/submissions-uploads', express.static('submissions-uploads')); 
 
 // global error handler
 app.use(errorHandler);

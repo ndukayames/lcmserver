@@ -15,9 +15,11 @@ function jwt() {
             '/student/register',
             '/hrc',
             '/lecturer/create',
-            '/lecturer/authenticate'
+            '/lecturer/authenticate',
             // /\/student/i
-            // /\/assignments/i
+            /\/assignment/i,
+            /\/new-assignment/i,
+            /\/submissions-uploads/i
             // /\/classes/i
             // /\/hrc/i
             // /\/lecturer/i

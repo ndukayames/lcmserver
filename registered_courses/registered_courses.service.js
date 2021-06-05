@@ -13,7 +13,8 @@ module.exports = {
   remove_course,
   non_dept_registration,
   student_course_reg,
-  delete_registered_course
+  delete_registered_course,
+  get_classmates
 };
 
 async function register_course(newCourseParam) {
@@ -46,7 +47,7 @@ async function check_available_course(studentParam) {
     //   // console.log(lecturer)
     // });
     });
-    console.log(1,available_courses.length)
+
     if(available_courses) {
       return available_courses;
     } else{
@@ -89,21 +90,21 @@ async function remove_course(hoc,{_id}) {
     if( !course || course.length < 1 ) {
       throw "invalid course"
     } else {
-      console.log(1,course)
+
       course.hoc.pop(hoc)
       course.save()
-      console.log(2,course)
+
       return true
     }
   } catch (error) {
-    console.log(error)
+
     throw error
   }
 }
 
 async function non_dept_registration({hoc,course_code}) {
   try {
-    console.log(hoc,course_code)
+
     let newCourse = await registered_courses.findOneAndUpdate(
       {course_code},
       {$push : {hoc}},
@@ -112,20 +113,20 @@ async function non_dept_registration({hoc,course_code}) {
     if(!newCourse) {
       throw "course does not exist"
     }
-    console.log(newCourse)
+
   } catch (error) {
-    console.log(error)
+
     throw error
   }
 }
 
 async function student_course_reg(studentID,{course_code}) {
-  console.log(studentID,course_code)
+
 
   try {
     let registration = await registered_courses.findOne({course_code})
+    console.log(studentID,course_code)
     if(registration) {
-      // console.log(registration)
       let student = await Student.findById(studentID)
       if(student){
         // console.log(student)
@@ -154,7 +155,7 @@ async function student_course_reg(studentID,{course_code}) {
 }
 
 async function delete_registered_course(studentID,{course_code}) {
-  console.log(studentID,course_code)
+
   try {
     let registration = await registered_courses.findOne({course_code})
     if(registration) {
@@ -183,4 +184,23 @@ async function delete_registered_course(studentID,{course_code}) {
     console.log("no course found")
     throw error
   }
+}
+async function get_classmates({course_id}) {
+  try {
+    let classmates = await registered_courses.findOne({_id:course_id})
+    .populate('course_student')
+    .select('course_student course_code');
+    if(classmates) {
+      let course_code = classmates.course_code
+      console.log(course_code)
+      classmates.course_student.forEach(student => {
+        student.password = course_code //using the password param to set course code since i can't create new property
+         console.log(student)
+      });
+    }
+    return classmates
+  } catch (error) {
+    throw error
+  }
+  
 }

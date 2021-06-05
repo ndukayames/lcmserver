@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const courseSchema = new Schema({
+const classchema = new Schema({
   hoc: { type: Schema.Types.ObjectId, ref: "Student", required: true },
   lecturer: { type: Schema.Types.ObjectId, ref: "lecturer", required: true },
   course: { type: Schema.Types.ObjectId, ref: "registered_courses", required: true },
@@ -16,4 +16,4 @@ const courseSchema = new Schema({
   date_started: { type: Date, default: Date.now }
 })
 
-module.exports = mongoose.model('classes', courseSchema);
+module.exports = mongoose.model('classes', classchema);

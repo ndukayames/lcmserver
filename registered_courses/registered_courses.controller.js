@@ -10,6 +10,7 @@ router.post('/remove-course', remove_course)
 router.post('/non-dept-register', non_dept_registration)
 router.post('/student-course-reg', student_course_reg)
 router.post('/student-course-reg-delete', delete_registered_course)
+router.post('/get-class-mates',get_classmates)
 
 module.exports = router
 
@@ -143,6 +144,22 @@ async function delete_registered_course(req, res, next) {
     res.json({
       success: true,
       msg: 'courses removed successfully',
+    })
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      msg: error
+    })
+  }
+}
+async function get_classmates(req, res, next) {
+  console.log("working",req.body)
+  try {
+    let classmates = await rcService.get_classmates(req.body)
+    res.json({
+      success: true,
+      msg: 'classmates collected successfully',
+      result: classmates
     })
   } catch (error) {
     res.status(500).send({

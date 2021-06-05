@@ -49,7 +49,6 @@ async function cancel_class( class_id ) {
     {$set : {event: 2}},
     { omitUndefined: true, new: true }
   ) 
-    console.log(class_id,theClass)
   
   if(theClass){
     return true
@@ -192,7 +191,7 @@ async function get_class_history({class_id,course_code,department}) {
 }
 
 async function check_course_attendance(_id,{class_id}) {
-  console.log(_id,{class_id})
+
  try {
    let checker = await Classes.find(
      {class_id, students: _id}
@@ -210,13 +209,12 @@ async function check_course_attendance(_id,{class_id}) {
 
 async function get_dept_attendance_log(_id,{class_id}) {
   //for hocs
-  console.log(_id,{class_id})
   try {
     let checker = await Classes.findOne({class_id: class_id, hoc: _id})
     .populate('students', '-password')
     .select('students')
     if(checker) {
-      console.log(checker)
+
       return checker
     } else {
       throw "could not retreive log"
@@ -228,7 +226,7 @@ async function get_dept_attendance_log(_id,{class_id}) {
 }
 
 async function get_lect_dept_attendance_log({department,class_id}) {
-  console.log(department,class_id)
+
   //for lecturers to get attendance logs for specified departments
   try {
     let logs = await Classes.findOne({department,class_id})

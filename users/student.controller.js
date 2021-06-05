@@ -29,6 +29,7 @@ async function authenticate( req, res, next ) {
 }
 
 async function register( req, res, next ) {
+
   try {
     await studentService.create(req.body)
     res.json({

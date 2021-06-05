@@ -105,8 +105,9 @@ async function get_lecturer_courses(id) {
   try {
     lecturerClasses = await registered_courses
     .find({course_lecturer: id})
+    .populate('course_lecturer course_student')
     if(lecturerClasses.length > 0) {
-      console.log(lecturerClasses)
+
       return lecturerClasses
     } else {
       throw "You\'re not registered for this course"

@@ -66,14 +66,14 @@ async function get_registered_courses( {_id} ) {
     let registered_courses = await Student.findById(_id)
     .select('registered_courses')
     if( registered_courses.id ) { 
-      console.log("registered_courses",registered_courses)
+
     } 
     if(registered_courses.registered_courses.length < 1) {
-      console.log("less than 1 registered_courses",registered_courses)
+
   
       throw "no registered courses found"
     } else {
-      console.log("returning registered_courses",registered_courses)
+
       return registered_courses
     }
   } catch (err) {
