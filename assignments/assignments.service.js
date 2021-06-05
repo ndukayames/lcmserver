@@ -233,7 +233,7 @@ async function score_student({student_id,score}){
     studentScoree = student.students.find(student => {
       return student.student_id == student_id
     });
-
+    console.log(student_id,score)
     studentScoree.student_score = score
     student.save();
   } catch (error) {
