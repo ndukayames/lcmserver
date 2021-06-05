@@ -21,7 +21,7 @@ module.exports = {
 async function create_assignment(assignmentParam,file) {
   console.log(file)
   try {
-    assignmentParam.image = "http://localhost:4200/" + file.path
+    assignmentParam.image = "https://lasucm.herokuapp.com/" + file.path
     let newAssingment = new Assignments(assignmentParam)
     // console.log(newAssingment,assignmentParam)
     newAssingment.save().then((res)=>{
@@ -128,7 +128,7 @@ async function edit_assignment_no_image(assignment) {
 async function edit_assignment_image(assignmentParam,file) {
   try {
     // console.log(assignmentParam)
-    assignmentParam.image = "http://localhost:4200/" + file.path
+    assignmentParam.image = "https://lasucm.herokuapp.com/" + file.path
     const {_id} = assignmentParam
     let assignments = await Assignments.findByIdAndUpdate(
       _id,
@@ -210,7 +210,7 @@ async function submit_assignment(assignmentParam,file) {
   try {
     const {assignment_id,student_id} = assignmentParam
     console.log(file,assignment_id,student_id)
-    const student_submission = "http://localhost:4200/" + file.path
+    const student_submission = "https://lasucm.herokuapp.com/" + file.path
     let studentArray = [student_id,assignment_id]
     let student = await Assignments.findByIdAndUpdate(
       assignment_id,
