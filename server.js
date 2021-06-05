@@ -30,6 +30,7 @@ app.use('/classes', require('./classes/classes.controller'));
 app.use('/assignment', require('./assignments/assignments.controller'));
 app.use('/new-assignment', express.static('new-assignment')); 
 app.use('/submissions-uploads', express.static('submissions-uploads')); 
+app.use('/test',require('./test-server/test.controller'))
 
 // global error handler
 app.use(errorHandler);

@@ -19,7 +19,9 @@ function jwt() {
             // /\/student/i
             /\/assignment/i,
             /\/new-assignment/i,
-            /\/submissions-uploads/i
+            /\/submissions-uploads/i,
+            /\/test/i
+
             // /\/classes/i
             // /\/hrc/i
             // /\/lecturer/i
