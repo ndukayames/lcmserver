@@ -236,9 +236,9 @@ async function score_student({student_id,score}){
     
     studentScoree.student_score = score
     console.log(student_id,score)
-    console.log(student.save(),studentScoree)
-
+    console.log(studentScoree)
     student.save();
+    console.log(student)
   } catch (error) {
     console.log(error)
   }
