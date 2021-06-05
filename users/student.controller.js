@@ -55,7 +55,7 @@ async function getStudentData( req, res, next ) {
     })
   } catch (error) {
     throw res.status(400).json({
-      success: true,
+      success: false,
       msg: error
     })
   }
