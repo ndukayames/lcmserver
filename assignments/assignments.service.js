@@ -230,9 +230,8 @@ async function score_student({student_id,score}){
   try {
     let student =  await Assignments.findOne({ "students.student_id" : student_id})
     .select('students')
-    studentScoree = student.students.find(student => {
-      return student.student_id == student_id
-    });
+    
+    console.log(student)
     
     studentScoree.student_score = score
     student.save().then(res=>{
