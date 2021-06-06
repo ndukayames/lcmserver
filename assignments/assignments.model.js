@@ -9,6 +9,7 @@ const assignmentSchema = new Schema({
   description : { type: String, required: false },
   url : { type: String, required: false },
   start_date : { type: Date, default: Date.now, required: false },
+  end_date : { type: Date, required: false },
   students : [ { 
     student_id :{type: Schema.Types.ObjectId, ref: "Student", required: false },
     student_score: { type:Number, required: false },
