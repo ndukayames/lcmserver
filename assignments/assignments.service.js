@@ -226,12 +226,11 @@ async function submit_assignment(assignmentParam,file) {
     throw error
   }
 }
-async function score_student({student_id,score}){
+async function score_student({assignment_id,student_id,score}){
   try {
-    let student =  await Assignments.findOne({ "students.student_id" : student_id})
+    let student =  await Assignments.findOne({ _id:assignment_id, "students.student_id" : student_id})
     .select('students')
-    
-    console.log(student)
+    student.students.student_score = score
     student.save().then(res=>{
       console.log(res)
     })
