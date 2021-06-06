@@ -45,7 +45,7 @@ async function register( req, res, next ) {
 }
 
 async function getStudentData( req, res, next ) {
-  console.log(req.user.sub)
+  
   try {
     let student = await studentService.getStudentById(req.user.sub)
 

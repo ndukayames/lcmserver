@@ -45,7 +45,7 @@ async function check_available_course( req, res, next ) {
     }
     
   } catch (error) {
-    console.log(error)
+    
     throw res.status(400).json({
       success: true,
       msg: error,
@@ -138,7 +138,7 @@ async function student_course_reg( req, res, next ) {
 }
 
 async function delete_registered_course(req, res, next) {
-  console.log("working")
+  
   try {
     await rcService.delete_registered_course(req.user.sub,req.body)
     res.json({
@@ -153,7 +153,7 @@ async function delete_registered_course(req, res, next) {
   }
 }
 async function get_classmates(req, res, next) {
-  console.log("working",req.body)
+  
   try {
     let classmates = await rcService.get_classmates(req.body)
     res.json({

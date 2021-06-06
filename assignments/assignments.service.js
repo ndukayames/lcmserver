@@ -19,15 +19,11 @@ module.exports = {
 }
 
 async function create_assignment(assignmentParam,file) {
-  console.log(file)
   try {
     assignmentParam.image = "https://lasucm.herokuapp.com/" + file.path
     let newAssingment = new Assignments(assignmentParam)
-    // console.log(newAssingment,assignmentParam)
     newAssingment.save().then((res)=>{
-      console.log(res)
     },(error) => {
-      console.log(error)
     })
   } catch (error) {
    throw error
@@ -36,11 +32,10 @@ async function create_assignment(assignmentParam,file) {
 async function create_assignment_no_image(assignmentParam) {
   try {
     let newAssingment = new Assignments(assignmentParam)
-    // console.log(newAssingment,assignmentParam)
     newAssingment.save().then((res)=>{
-      console.log(res)
+
     },(error) => {
-      console.log(error)
+
     })
   } catch (error) {
    throw error
@@ -59,7 +54,7 @@ async function get_recent_assignments({department}) {
       populate: { path: 'course_student course_lecturer hoc'},
       })
     .populate('students.student_id', '-password');
-      console.log(recentss.course)
+
     if(recentss.length > 0) {
       recentss.forEach(assignment => {
         assignment.course.hoc.forEach(hoc => {
@@ -72,11 +67,11 @@ async function get_recent_assignments({department}) {
           hoc.password = "lol"
         });
       });
-      console.log(1,recentss,department)
+
       return recentss
     }
   } catch (error) {
-    console.log(error)
+
     throw error
   }
   
@@ -108,7 +103,7 @@ async function get_due_assignments({department}) {
       return recentss
     }
   } catch (error) {
-    console.log(error)
+    
     throw error
   }
 }
@@ -127,7 +122,7 @@ async function edit_assignment_no_image(assignment) {
 }
 async function edit_assignment_image(assignmentParam,file) {
   try {
-    // console.log(assignmentParam)
+    // 
     assignmentParam.image = "https://lasucm.herokuapp.com/" + file.path
     const {_id} = assignmentParam
     let assignments = await Assignments.findByIdAndUpdate(
@@ -135,7 +130,7 @@ async function edit_assignment_image(assignmentParam,file) {
       {$set : assignmentParam},
       { omitUndefined: true, new: true }
     )
-    console.log(assignments)
+    
   } catch (error) {
     throw error
   }
@@ -209,7 +204,7 @@ async function get_assignments() {
 async function submit_assignment(assignmentParam,file) {
   try {
     const {assignment_id,student_id} = assignmentParam
-    console.log(file,assignment_id,student_id)
+    
     const student_submission = "https://lasucm.herokuapp.com/" + file.path
     let studentArray = [student_id,assignment_id]
     let student = await Assignments.findByIdAndUpdate(
@@ -221,7 +216,7 @@ async function submit_assignment(assignmentParam,file) {
       },
       { omitUndefined: true, new: true }
     )
-    console.log(student)
+    
   } catch (error) {
     throw error
   }
@@ -230,12 +225,15 @@ async function score_student({assignment_id,student_id,score}){
   try {
     let student =  await Assignments.findOne({ _id:assignment_id, "students.student_id" : student_id})
     .select('students')
-    student.students.student_score = score
+    
+    student.students[0].student_score = score
+    
+
     student.save().then(res=>{
-      console.log(res)
+      
     })
   } catch (error) {
-    console.log(error)
+    
   }
  
 }

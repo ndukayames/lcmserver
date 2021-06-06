@@ -83,7 +83,7 @@ async function create_assignment_no_image(req,res) {
 async function get_recent_assignments( req, res ) {
   try {
     let recents = await assignmentService.get_recent_assignments(req.body)
-    // console.log(recents)
+
     res.send({
       success: true,
       msg: 'recents collected',
@@ -114,8 +114,6 @@ async function get_due_assignments( req, res ) {
 
 async function edit_assignment_image( req, res ) {
   try {
-    console.log(req.body)
-    console.log(req.file)
     await assignmentService.edit_assignment_image(req.body,req.file)
     res.send({
       success: true,
@@ -201,7 +199,6 @@ async function get_assignments(req, res) {
 }
 
 async function submit_assignment(req,res) {
-  console.log('uploading',req.file, req.body)
   try {
     const file = req.file
     if (!file) {
@@ -214,7 +211,7 @@ async function submit_assignment(req,res) {
       })
     }
   } catch (error) {
-    console.log(error)
+
     throw res.status(400).json({
       success: false,
       msg: error

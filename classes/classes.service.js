@@ -24,7 +24,7 @@ async function create_class(classParam) {
   try {
     await new_class.save()
   } catch (error) {
-    console.log(error)
+    
     throw error
   }
 }
@@ -185,7 +185,7 @@ async function get_class_history({class_id,course_code,department}) {
       return theClass
     }
   } catch (error) {
-    console.log(error)
+    
     throw error
   }
 }
@@ -202,7 +202,7 @@ async function check_course_attendance(_id,{class_id}) {
      throw "student does not have an attendance for this class"
    }
  } catch (error) {
-   console.log(error)
+   
    throw error
  }
 }
@@ -220,7 +220,7 @@ async function get_dept_attendance_log(_id,{class_id}) {
       throw "could not retreive log"
     }
   } catch (error) {
-    console.log(error)
+    
     throw error
   }
 }
@@ -232,9 +232,9 @@ async function get_lect_dept_attendance_log({department,class_id}) {
     let logs = await Classes.findOne({department,class_id})
     .populate('students', '-password')
     .select('students')
-    console.log(logs)
+    
     if(logs) {
-      console.log(logs)
+      
       return logs
     } else {
       throw "no logs found"
@@ -264,7 +264,7 @@ async function get_lect_dept_attendance_log({department,class_id}) {
 //       return theClass
 //     }
 //   } catch (error) {
-//     console.log(error)
+//     
 //     throw error
 //   }
 // }

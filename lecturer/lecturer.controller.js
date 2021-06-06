@@ -30,7 +30,7 @@ async function register( req, res, next) {
 }
 
 async function authenticate( req, res, next ) {
-  console.log(req.headers,req.body)
+  
   try {
     let user = await lecturerService.authenticate(req.body)
     res.json({

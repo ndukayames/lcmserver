@@ -44,7 +44,7 @@ async function check_available_course(studentParam) {
     }
     // course.course_lecturer.forEach(lecturer => {
     //   lecturer.fullName = lecturer.firstName + " " + lecturer.lastName
-    //   // console.log(lecturer)
+    //   // 
     // });
     });
 
@@ -78,7 +78,7 @@ async function get_hoc_courses(hoc) {
       return courses
     }
   } catch (error) {
-    console.log("error")
+    
     throw error
   }
 } 
@@ -125,16 +125,16 @@ async function student_course_reg(studentID,{course_code}) {
 
   try {
     let registration = await registered_courses.findOne({course_code})
-    console.log(studentID,course_code)
+    
     if(registration) {
       let student = await Student.findById(studentID)
       if(student){
-        // console.log(student)
+        // 
         if(student.registered_courses.includes(course_code) || registration.course_student.includes(studentID)){
-          console.log("held here")
+          
           throw "you\'re already signed up for this course"
         } else {
-          console.log(" not held here")
+          
           student.registered_courses.push(course_code)
           registration.course_student.push(studentID)
           student.save();
@@ -148,8 +148,8 @@ async function student_course_reg(studentID,{course_code}) {
       throw "can\'t find course"
     }
   } catch (error) {
-    console.log(1,error)
-    console.log("no course found")
+    
+    
     throw error
   }
 }
@@ -159,18 +159,18 @@ async function delete_registered_course(studentID,{course_code}) {
   try {
     let registration = await registered_courses.findOne({course_code})
     if(registration) {
-      // console.log(registration)
+      // 
       let student = await Student.findById(studentID)
       if(student){
-        // console.log(student)
+        // 
         if(student.registered_courses.includes(course_code) || registration.course_student.includes(studentID)){
-          console.log("held here")
+          
           student.registered_courses.pop(course_code)
           registration.course_student.pop(studentID)
           student.save();
           registration.save();
         } else {
-          console.log(" not held here")
+          
           throw "you\'re not signed up for this course"
         }
       } else {
@@ -180,8 +180,8 @@ async function delete_registered_course(studentID,{course_code}) {
       throw "can\'t find course"
     }
   } catch (error) {
-    console.log(1,error)
-    console.log("no course found")
+    
+    
     throw error
   }
 }
@@ -192,10 +192,10 @@ async function get_classmates({course_id}) {
     .select('course_student course_code');
     if(classmates) {
       let course_code = classmates.course_code
-      console.log(course_code)
+      
       classmates.course_student.forEach(student => {
         student.password = course_code //using the password param to set course code since i can't create new property
-         console.log(student)
+         
       });
     }
     return classmates

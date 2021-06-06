@@ -113,7 +113,7 @@ async function get_lecturer_courses(id) {
       throw "You\'re not registered for this course"
     }
   } catch (error) {
-    console.log(error)
+    
     throw error
   }
   
