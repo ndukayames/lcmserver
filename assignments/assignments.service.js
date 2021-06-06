@@ -232,8 +232,6 @@ async function score_student({student_id,score}){
     .select('students')
     
     console.log(student)
-    
-    studentScoree.student_score = score
     student.save().then(res=>{
       console.log(res)
     })
