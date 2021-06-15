@@ -15,27 +15,35 @@ module.exports = {
 };
 
 async function authenticate({ matric_number, password, uid }) {
-  if (uid) {
-    const student = await Student.findOne({ matric_number});
-    if(student){
-      if(uid !== student.unique_device) {
-        throw "This device is not registered to your account!"
-      } 
-      else if(bcrypt.compareSync(password, student.password)) {
-        console.log(!bcrypt.compareSync(unhasheduid, student.unique_device))
-        const token = jwt.sign({ sub: student.id }, config.secret, { expiresIn: '7d' });
-        return {
-          token
-        };
+
+  try {
+    if (uid) {
+      const student = await Student.findOne({ matric_number});
+      if(student){
+        if(uid !== student.unique_device) {
+          throw "This device is not registered to your account!"
+        } 
+        else if(bcrypt.compareSync(password, student.password)) {
+          console.log(!bcrypt.compareSync(unhasheduid, student.unique_device))
+          const token = jwt.sign({ sub: student.id }, config.secret, { expiresIn: '7d' });
+          return {
+            token
+          };
+        } else {
+          throw "incorrect password"
+        }
       } else {
-        throw "incorrect password"
+        throw "incorrect matric number"
       }
     } else {
-      throw "incorrect matric number"
+      throw "can't authenticate device"
     }
-  } else {
-    throw "can't authenticate device"
+  } catch (error) {
+    console.log(error)
+    throw error
   }
+
+  
 }
 
 async function getStudentById(id) {
