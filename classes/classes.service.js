@@ -17,7 +17,8 @@ module.exports = {
   check_course_attendance,
   get_dept_attendance_log,
   get_lect_dept_attendance_log,
-  add_class_note
+  add_class_note,
+  create_class_assignment
 }
 
 async function create_class(classParam) {
@@ -216,7 +217,6 @@ async function get_dept_attendance_log(_id,{class_id}) {
     .populate('students', '-password')
     .select('students')
     if(checker) {
-
       return checker
     } else {
       throw "could not retreive log"
@@ -278,6 +278,12 @@ async function add_class_note({class_id, class_note}) {
   } catch (error) {
     throw error
   }
-  
+}
 
+async function create_class_assignment({class_id}) {
+  try {
+    let classes = await Classes.updateMany({class_id},{assignment: true})
+  } catch (error) {
+    throw error
+  }
 }
