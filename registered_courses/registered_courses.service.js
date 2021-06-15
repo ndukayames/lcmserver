@@ -132,7 +132,9 @@ console.log(studentID,course_code)
           })
         }
         if(!registration.course_student.student_id.includes(studentID)) {
-          registration.course_student.student_id.push(studentID)
+          registration.course_student.push({
+            student_id: studentID
+          })
           registration.save().then(res => {
             console.log('added ' + course_code + ' to registration')
           })
@@ -165,7 +167,8 @@ async function delete_registered_course(studentID,{course_code}) {
           })
         }
         if(registration.course_student.student_id.includes(studentID)) {
-          registration.course_student.student_id.pop(studentID)
+          registration.course_student.student_id.pop({
+            student: studentID})
           registration.save().then(res => {
             console.log('removed ' + course_code + ' from regration')
           })
