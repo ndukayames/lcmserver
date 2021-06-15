@@ -199,7 +199,7 @@ async function get_classmates({course_id}) {
       console.log(classmates)
       let course_code = classmates.course_code
       classmates.course_student.forEach(student => {
-        student.password = course_code //using the password param to set course code since i can't create new property
+        student.student_id.password = course_code //using the password param to set course code since i can't create new property
       });
     }
     return classmates
