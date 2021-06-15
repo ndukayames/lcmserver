@@ -15,7 +15,7 @@ module.exports = {
 };
 
 async function authenticate({ matric_number, password, uid }) {
-  console.log(matric_number, password, uid )
+  console.log(matric_number, password )
   if (uid) {
     uid = bcrypt.hashSync(uid, 10);
   } else {
