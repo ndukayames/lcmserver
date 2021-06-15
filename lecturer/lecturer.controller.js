@@ -85,7 +85,7 @@ async function complete_lecturer_signup( req, res, next ) {
     let completeProfileStatus = await lecturerService.complete_lecturer_signup(req.user.sub, req.body)
     res.json({
       success: true,
-      msg: 'lecturer profile completed',
+      msg: 'profile completed, please sign out and sign back in to continue',
       result: completeProfileStatus
     })
   } catch (error) {
@@ -97,7 +97,6 @@ async function complete_lecturer_signup( req, res, next ) {
 }
 
 async function get_hoc_lecturer( req, res, next ) {
-
 
   try {
     let lecturers = await lecturerService.get_hoc_lecturer(req.body)

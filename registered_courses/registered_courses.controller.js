@@ -43,9 +43,8 @@ async function check_available_course( req, res, next ) {
         result: request
       })
     }
-    
   } catch (error) {
-    
+    console.log(error)
     throw res.status(400).json({
       success: true,
       msg: error,

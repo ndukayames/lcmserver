@@ -15,7 +15,8 @@ const Studentschema = new Schema({
     level: { type:Number, required: false },
     complete_profile: { type:Boolean, default: false, required: true },
     type: { type:String, required: false, default: "student" },
-    createdDate: { type: Date, default: Date.now }
+    createdDate: { type: Date, default: Date.now },
+    unique_device: {type: String, unique:true, required: true}
 });
 
 Studentschema.set('toJSON', {

@@ -42,12 +42,8 @@ async function check_available_course(studentParam) {
     if(myHoc) {
       available_courses.push(course)
     }
-    // course.course_lecturer.forEach(lecturer => {
-    //   lecturer.fullName = lecturer.firstName + " " + lecturer.lastName
-    //   // 
-    // });
-    });
 
+    });
     if(available_courses) {
       return available_courses;
     } else{
@@ -121,8 +117,7 @@ async function non_dept_registration({hoc,course_code}) {
 }
 
 async function student_course_reg(studentID,{course_code}) {
-
-
+console.log(studentID,course_code)
   try {
     let registration = await registered_courses.findOne({course_code})
     
@@ -130,16 +125,17 @@ async function student_course_reg(studentID,{course_code}) {
       let student = await Student.findById(studentID)
       if(student){
         // 
-        if(student.registered_courses.includes(course_code) || registration.course_student.includes(studentID)){
-          
-          throw "you\'re already signed up for this course"
-        } else {
-          
+        if(!student.registered_courses.includes(course_code)) {
           student.registered_courses.push(course_code)
+          student.save().then(res => {
+            console.log('added ' + course_code + ' to students')
+          })
+        }
+        if(!registration.course_student.includes(studentID)) {
           registration.course_student.push(studentID)
-          student.save();
-          registration.save();
-
+          registration.save().then(res => {
+            console.log('added ' + course_code + ' to registration')
+          })
         }
       } else {
         throw "invalid student ID"
@@ -159,19 +155,20 @@ async function delete_registered_course(studentID,{course_code}) {
   try {
     let registration = await registered_courses.findOne({course_code})
     if(registration) {
-      // 
       let student = await Student.findById(studentID)
       if(student){
         // 
-        if(student.registered_courses.includes(course_code) || registration.course_student.includes(studentID)){
-          
+        if(student.registered_courses.includes(course_code)) {
           student.registered_courses.pop(course_code)
+          student.save().then(res => {
+            console.log('removed ' + course_code + ' from students')
+          })
+        }
+        if(registration.course_student.includes(studentID)) {
           registration.course_student.pop(studentID)
-          student.save();
-          registration.save();
-        } else {
-          
-          throw "you\'re not signed up for this course"
+          registration.save().then(res => {
+            console.log('removed ' + course_code + ' from regration')
+          })
         }
       } else {
         throw "invalid student ID"

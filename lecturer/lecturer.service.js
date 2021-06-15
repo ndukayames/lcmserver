@@ -75,9 +75,8 @@ async function complete_lecturer_signup(id,lectParam) {
     {$set : lectParam},
     { omitUndefined: true, new: true }
     )
-
-
     if(completeProfile){
+    console.log(completeProfile)
       return true
     } else {
       throw "lecturer not found"
@@ -107,13 +106,12 @@ async function get_lecturer_courses(id) {
     .find({course_lecturer: id})
     .populate('course_lecturer course_student')
     if(lecturerClasses.length > 0) {
-
       return lecturerClasses
     } else {
       throw "You\'re not registered for this course"
     }
   } catch (error) {
-    
+    console.log(error)
     throw error
   }
   

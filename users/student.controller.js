@@ -9,6 +9,7 @@ router.get( '/getStudentData', getStudentData );
 router.post( '/get-registered-courses', get_registered_courses );
 router.post( '/check-complete-profile', check_complete_profile );
 router.post('/update-profile', update_profile)
+router.post('/complete-profile',complete_profile)
 
 module.exports = router;
 
@@ -102,6 +103,21 @@ async function update_profile( req, res ) {
       success : true,
       msg: 'success',
       result: status
+    })
+  } catch (error) {
+    throw res.status(400).json({
+      success: false,
+      msg: error
+    })
+  }
+}
+
+async function complete_profile( req, res ) {
+  try {
+    await studentService.update_profile(req.user.sub,req.body)
+    res.json({
+      success : true,
+      msg: 'success'
     })
   } catch (error) {
     throw res.status(400).json({

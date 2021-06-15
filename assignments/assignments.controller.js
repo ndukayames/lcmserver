@@ -199,6 +199,7 @@ async function get_assignments(req, res) {
 }
 
 async function submit_assignment(req,res) {
+  console.log('submitting ctrl')
   try {
     const file = req.file
     if (!file) {

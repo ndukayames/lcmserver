@@ -202,11 +202,12 @@ async function get_assignments() {
   .select('-image')
 }
 async function submit_assignment(assignmentParam,file) {
+  console.log('submitting')
   try {
     const {assignment_id,student_id} = assignmentParam
     
     const student_submission = "https://lasucm.herokuapp.com/" + file.path
-    let studentArray = [student_id,assignment_id]
+    // let studentArray = [student_id,assignment_id]
     let student = await Assignments.findByIdAndUpdate(
       assignment_id,
       {
@@ -216,7 +217,7 @@ async function submit_assignment(assignmentParam,file) {
       },
       { omitUndefined: true, new: true }
     )
-    
+    console.log(student)
   } catch (error) {
     throw error
   }

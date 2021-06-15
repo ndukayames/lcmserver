@@ -94,7 +94,6 @@ async function getMyOnGoingClasses( { department, level } ) {
   // 
   try {
   let myClasses =  theClass.filter(aclass => {
-      
       return aclass.hoc != null && aclass.hoc.level === level && aclass.hoc.department === department && aclass.event === 0
   })
   myClasses.forEach(myClass => {
@@ -162,30 +161,32 @@ async function get_other_classes( {department,class_id} ) {
   }
 }
 
-async function get_class_history({class_id,course_code,department}) {
+async function get_class_history({class_id,course_id,department}) {
   //for students
+  console.log(course_id,department)
   try {
     let theClass = await Classes
-    .find()
+    .find({course:course_id,department})
     .populate({
       path: 'hoc',
-      match: {department: department}
+      // match: {department: department}
     })
     .populate('students')
     .populate({
       path: "course",
       populate: {path: "course_student"},
       populate: {path: "hoc", select: "department"},
-      match: {course_code: course_code}
+      // match: {course_code: course_code}
     })
     .populate('lecturer')
     if(theClass.length < 1 ) {
       throw "no class history"
     } else {
+      console.log(theClass)
       return theClass
     }
   } catch (error) {
-    
+    console.log(111,error)
     throw error
   }
 }
