@@ -165,7 +165,7 @@ async function get_other_classes( {department,class_id} ) {
 
 async function get_class_history({class_id,course_id,department}) {
   //for students
-  console.log(course_id,department)
+  
   try {
     let theClass = await Classes
     .find({course:course_id,department})
@@ -184,11 +184,11 @@ async function get_class_history({class_id,course_id,department}) {
     if(theClass.length < 1 ) {
       throw "no class history"
     } else {
-      console.log(theClass)
+      
       return theClass
     }
   } catch (error) {
-    console.log(111,error)
+    
     throw error
   }
 }
@@ -274,7 +274,7 @@ async function get_lect_dept_attendance_log({department,class_id}) {
 async function add_class_note({class_id, class_note}) {
   try {
     let classes = await Classes.updateMany({class_id},{class_note})
-    console.log(classes.n)
+    
   } catch (error) {
     throw error
   }
@@ -282,9 +282,7 @@ async function add_class_note({class_id, class_note}) {
 
 async function create_class_assignment({class_id}) {
   try {
-    console.log(123456789098765432345678)
     let classes = await Classes.updateMany({class_id},{assignment: true})
-    console.log(classes)
   } catch (error) {
     throw error
   }

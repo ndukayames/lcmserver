@@ -11,7 +11,7 @@ const registered_coursesSchema = new Schema({
   class_day : { type: String, required: true },
   course_student : [{ 
     student_id :{type: Schema.Types.ObjectId, ref: "Student", required: false },
-    student_score: { type:Number, required: false },
+    student_score: { type:Number, required: false, default: 0 },
   }],
   level : { type: Number, required: true },
   course_lecturer : [{ type: Schema.Types.ObjectId, ref: "lecturer", required: false }],

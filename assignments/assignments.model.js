@@ -12,7 +12,7 @@ const assignmentSchema = new Schema({
   end_date : { type: Date, required: false },
   students : [ { 
     student_id :{type: Schema.Types.ObjectId, ref: "Student", required: false },
-    student_score: { type:Number, required: false },
+    student_score: { type:Number, required: false, default: 0 },
     student_submission: { type:String, required: false }
   } ],
   department: { type: String, required: false },
