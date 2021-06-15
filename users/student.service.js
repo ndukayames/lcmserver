@@ -16,10 +16,9 @@ module.exports = {
 
 async function authenticate({ matric_number, password, uid }) {
   if (uid) {
-    let unhasheduid = uid
     const student = await Student.findOne({ matric_number});
     if(student){
-      if(!bcrypt.compareSync(unhasheduid, student.unique_device)) {
+      if(uid !== student.unique_device) {
         throw "This device is not registered to your account!"
       } 
       else if(bcrypt.compareSync(password, student.password)) {
@@ -55,13 +54,12 @@ async function getStudentById(id) {
 
 async function create( userParam ) {
     // validate
-    let unhasheduid = userParam.unique_device
     try {
       if(await Student.findOne({ matric_number: userParam.matric_number })) {
         throw 'Student with matric number "' + userParam.matric_number + '" is already registered';
       }
-      if (userParam.unique_device) {
-        userParam.unique_device = bcrypt.hashSync(userParam.unique_device, 10);
+      if (!userParam.unique_device) {
+        throw "you're signing up from an unsupported device"
       }
       if(await Student.findOne({ email: userParam.email })) {
         throw 'Student with email "' + userParam.email + '" is already registered';
@@ -77,9 +75,6 @@ async function create( userParam ) {
       
       if (userParam.password) {
           student.password = bcrypt.hashSync(userParam.password, 10);
-      }
-      if(bcrypt.compareSync(unhasheduid, student.unique_device)) {
-        throw "You can't signup on this device";
       }
       await student.save();
 

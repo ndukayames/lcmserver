@@ -22,7 +22,7 @@ async function authenticate( req, res, next ) {
       result: user
     })
   } catch (error) {
-    res.status(500).send({
+    res.status(400).send({
       success: false,
       msg: error
     })
