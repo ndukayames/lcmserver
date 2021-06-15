@@ -13,6 +13,7 @@ const classchema = new Schema({
   level : { type: Number, required: true },
   class_id : { type: String, required: true },
   assignment: {type: Boolean, required: true},
+  class_note : {type: String, required: false},
   date_started: { type: Date, default: Date.now }
 })
 

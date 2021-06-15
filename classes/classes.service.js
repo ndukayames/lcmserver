@@ -16,7 +16,8 @@ module.exports = {
   get_class_history,
   check_course_attendance,
   get_dept_attendance_log,
-  get_lect_dept_attendance_log
+  get_lect_dept_attendance_log,
+  add_class_note
 }
 
 async function create_class(classParam) {
@@ -269,3 +270,14 @@ async function get_lect_dept_attendance_log({department,class_id}) {
 //     throw error
 //   }
 // }
+
+async function add_class_note({class_id, class_note}) {
+  try {
+    let classes = await Classes.updateMany({class_id},{class_note})
+    console.log(classes.n)
+  } catch (error) {
+    throw error
+  }
+  
+
+}

@@ -32,7 +32,7 @@ async function check_available_course(studentParam) {
     .find()
     .populate('hoc', '-password -complete_profile')
     .populate('course_lecturer', '-password -complete_profile')
-    .populate('course_student', '-password')
+    .populate('course_student.student_id', '-password')
     const {department, level} = studentParam;
     let available_courses = []
     courses.forEach(course => {
@@ -131,8 +131,8 @@ console.log(studentID,course_code)
             console.log('added ' + course_code + ' to students')
           })
         }
-        if(!registration.course_student.includes(studentID)) {
-          registration.course_student.push(studentID)
+        if(!registration.course_student.student_id.includes(studentID)) {
+          registration.course_student.student_id.push(studentID)
           registration.save().then(res => {
             console.log('added ' + course_code + ' to registration')
           })
@@ -164,8 +164,8 @@ async function delete_registered_course(studentID,{course_code}) {
             console.log('removed ' + course_code + ' from students')
           })
         }
-        if(registration.course_student.includes(studentID)) {
-          registration.course_student.pop(studentID)
+        if(registration.course_student.student_id.includes(studentID)) {
+          registration.course_student.student_id.pop(studentID)
           registration.save().then(res => {
             console.log('removed ' + course_code + ' from regration')
           })
@@ -185,12 +185,12 @@ async function delete_registered_course(studentID,{course_code}) {
 async function get_classmates({course_id}) {
   try {
     let classmates = await registered_courses.findOne({_id:course_id})
-    .populate('course_student')
+    .populate('course_student.student_id')
     .select('course_student course_code');
     if(classmates) {
       let course_code = classmates.course_code
       
-      classmates.course_student.forEach(student => {
+      classmates.course_student.student_id.forEach(student => {
         student.password = course_code //using the password param to set course code since i can't create new property
          
       });

@@ -16,6 +16,7 @@ router.post('/get-class-history', get_class_history)
 router.post('/check-class-attendance', check_course_attendance)
 router.post('/get-dept-attendance', get_dept_attendance_log)
 router.post('/lecturer-dept-attendance', get_lect_dept_attendance_log)
+router.post('/add-class-note', add_class_note)
 
 module.exports = router
 
@@ -213,6 +214,21 @@ async function get_lect_dept_attendance_log( req, res ) {
       success: true,
       msg: 'Student is in class',
       result: logs
+    })
+  } catch (error) {
+    throw res.status(400).json({
+      success: false,
+      msg: error
+    })
+  }
+}
+
+async function add_class_note( req, res ) {
+  try {
+    await classService.add_class_note(req.body)
+    res.json({
+      success: true,
+      msg: 'note added'
     })
   } catch (error) {
     throw res.status(400).json({
