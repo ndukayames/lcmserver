@@ -57,7 +57,7 @@ async function create( userParam ) {
     
     try {
       let uniqueStudentChecker = await Student.find({unique_device: userParam.unique_device})
-      if(uniqueStudentChecker) {
+      if(uniqueStudentChecker.length > 0) {
         console.log(uniqueStudentChecker)
         throw "You can't create an account on this device"
       }
