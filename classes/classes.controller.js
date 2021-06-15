@@ -241,7 +241,7 @@ async function add_class_note( req, res ) {
 
 async function create_class_assignment( req, res ) {
   try {
-    await classService.add_class_note(req.body)
+    await classService.create_class_assignment(req.body)
     res.json({
       success: true,
       msg: 'class created'
