@@ -24,7 +24,6 @@ async function authenticate({ matric_number, password, uid }) {
           throw "This device is not registered to your account!"
         } 
         else if(bcrypt.compareSync(password, student.password)) {
-          console.log(!bcrypt.compareSync(unhasheduid, student.unique_device))
           const token = jwt.sign({ sub: student.id }, config.secret, { expiresIn: '7d' });
           return {
             token
