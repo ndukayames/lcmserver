@@ -282,6 +282,7 @@ async function add_class_note({class_id, class_note}) {
 
 async function create_class_assignment({class_id}) {
   try {
+    console.log(123456789098765432345678)
     let classes = await Classes.updateMany({class_id},{assignment: true})
     console.log(classes)
   } catch (error) {
