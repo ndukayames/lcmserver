@@ -15,7 +15,8 @@ module.exports = {
   score_student,
   create_assignment_no_image,
   edit_assignment_no_image,
-  edit_assignment_image
+  edit_assignment_image,
+  get_student_assignment_scores
 }
 
 async function create_assignment(assignmentParam,file) {
@@ -224,17 +225,43 @@ async function submit_assignment(assignmentParam,file) {
 }
 async function score_student({assignment_id,student_id,score}){
   try {
-    let student =  await Assignments.findOne({ _id:assignment_id, "students.student_id" : student_id})
-    .select('students')
-    
-    student.students[0].student_score = score
-    
-
-    student.save().then(res=>{
-      
+    let student =  await Assignments.findOne({ _id:assignment_id, "students.student_id" : student_id}).then(res => {
+      let sumn = res.students.find(reslt => {
+        console.log(reslt.student_id == student_id,reslt.student_id, student_id)
+        return reslt.student_id == student_id
+      })
+      sumn.student_score = score
+      console.log(sumn)
+      res.save()
     })
+
   } catch (error) {
-    
+    console.log(error)
+    throw error
   }
- 
+}
+async function get_student_assignment_scores({student_id,course_id}) {
+  try {
+    let scores = await Assignments.find({
+      course: course_id,
+      "students.student_id": student_id
+    })
+    .select("students")
+    let counter = 0
+    let allScore = []
+    scores.forEach(res => {
+      let ascore = res.students.find(res2 => {
+        return res2.student_id._id == student_id
+      })
+      counter++
+      allScore.push(ascore)
+      if(counter == scores.length) {
+        scores = allScore
+      }
+    })
+    return scores
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
 }

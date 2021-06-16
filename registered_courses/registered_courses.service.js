@@ -14,7 +14,8 @@ module.exports = {
   non_dept_registration,
   student_course_reg,
   delete_registered_course,
-  get_classmates
+  get_classmates,
+  get_student_ca_scores
 };
 
 async function register_course(newCourseParam) {
@@ -207,5 +208,28 @@ async function get_classmates({course_id}) {
     console.log(error)
     throw error
   }
-  
+}
+
+async function get_student_ca_scores({student_id,course_id}) {
+  try {
+    let scores = await registered_courses.find({
+      _id: course_id,
+      "course_student.student_id": student_id
+    })
+    .select("course_student course_code course_title")
+    let counter = 0
+    scores.forEach(res => {
+      let ascore = res.course_student.find(res2 => {
+        return res2.student_id._id == student_id
+      })
+      counter++
+      if(counter == scores.length) {
+        scores = ascore
+      }
+    })
+    console.log(scores)
+    return scores
+  } catch (error) {
+    throw error
+  }
 }

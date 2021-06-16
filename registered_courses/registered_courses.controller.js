@@ -11,6 +11,7 @@ router.post('/non-dept-register', non_dept_registration)
 router.post('/student-course-reg', student_course_reg)
 router.post('/student-course-reg-delete', delete_registered_course)
 router.post('/get-class-mates',get_classmates)
+router.post('/get-student-ca-scores',get_student_ca_scores)
 
 module.exports = router
 
@@ -162,6 +163,22 @@ async function get_classmates(req, res, next) {
     })
   } catch (error) {
     res.status(500).send({
+      success: false,
+      msg: error
+    })
+  }
+}
+
+async function get_student_ca_scores(req,res) {
+  try {
+    let score = await  rcService.get_student_ca_scores(req.body)
+    res.send({
+      success: true,
+      msg: 'student ca scores collected successfully',
+      result: score
+    })
+  } catch (error) {
+    throw res.status(400).json({
       success: false,
       msg: error
     })

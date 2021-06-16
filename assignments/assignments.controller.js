@@ -11,6 +11,7 @@ router.post('/end', end_assignment)
 router.post('/get-course-assignments', get_course_assignments)
 router.get('/get-all',get_assignments)
 router.post('/score-student',score_student)
+router.post('/get-student-assignment-scores',get_student_assignment_scores)
 
   var storage1 = multer.diskStorage({
 
@@ -228,6 +229,21 @@ async function score_student(req,res) {
       success: true,
       msg: 'student scored successfully',
       result: student
+    })
+  } catch (error) {
+    throw res.status(400).json({
+      success: false,
+      msg: error
+    })
+  }
+}
+async function get_student_assignment_scores(req,res) {
+  try {
+    let score = await assignmentService.get_student_assignment_scores(req.body)
+    res.send({
+      success: true,
+      msg: 'student assignment scores collected successfully',
+      result: score
     })
   } catch (error) {
     throw res.status(400).json({
