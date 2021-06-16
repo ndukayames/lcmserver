@@ -15,7 +15,8 @@ module.exports = {
   student_course_reg,
   delete_registered_course,
   get_classmates,
-  get_student_ca_scores
+  get_student_ca_scores,
+  submit_ca_score
 };
 
 async function register_course(newCourseParam) {
@@ -216,7 +217,7 @@ async function get_student_ca_scores({student_id,course_id}) {
       _id: course_id,
       "course_student.student_id": student_id
     })
-    .select("course_student course_code course_title")
+    .select("course_student")
     let counter = 0
     scores.forEach(res => {
       let ascore = res.course_student.find(res2 => {
@@ -230,6 +231,24 @@ async function get_student_ca_scores({student_id,course_id}) {
     console.log(scores)
     return scores
   } catch (error) {
+    throw error
+  }
+}
+async function submit_ca_score({course_id,student_id,student_score}) {
+  console.log(course_id,student_id,student_score)
+  try {
+    let opera = await registered_courses.findOne({
+      _id:course_id,
+      "course_student.student_id" : student_id
+    }).then(res => {
+      let student = res.course_student.find(reslt => {
+        return reslt.student_id == student_id
+      })
+      student.student_score = student_score
+      res.save()
+    })
+  } catch (error) {
+    console.log(error)
     throw error
   }
 }

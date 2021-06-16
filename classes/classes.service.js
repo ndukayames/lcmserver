@@ -163,7 +163,7 @@ async function get_other_classes( {department,class_id} ) {
   }
 }
 
-async function get_class_history({class_id,course_id,department}) {
+async function get_class_history({course_id,department}) {
   //for students
   
   try {
