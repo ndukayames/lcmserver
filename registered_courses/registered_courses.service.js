@@ -192,7 +192,7 @@ async function delete_registered_course(studentID,{course_code}) {
   }
 }
 async function get_classmates({course_id}) {
-  console.log(course_id)
+  console.log("course id ",course_id)
   try {
     let classmates = await registered_courses.findOne({_id:course_id})
     .populate('course_student.student_id')
@@ -200,8 +200,8 @@ async function get_classmates({course_id}) {
     if(classmates.course_student.length > 0) {
       let course_code = classmates.course_code
       classmates.course_student.forEach(student => {
-        console.log(student.student_id)
         student.student_id.password = course_code //using the password param to set course code since i can't create new property
+        console.log(student.student_id)
       });
     }
     return classmates
