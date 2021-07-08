@@ -197,13 +197,6 @@ async function get_classmates({course_id}) {
     let classmates = await registered_courses.findOne({_id:course_id})
     .populate('course_student.student_id')
     .select('course_student course_code');
-    if(classmates.course_student.length > 0) {
-      let course_code = classmates.course_code
-      classmates.course_student.forEach(student => {
-        student.student_id.password = course_code //using the password param to set course code since i can't create new property
-        console.log(student.student_id)
-      });
-    }
     return classmates
   } catch (error) {
     console.log(error)
