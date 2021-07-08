@@ -149,6 +149,7 @@ async function get_other_classes( {department,class_id} ) {
       match: {department: -department}
     })
     .select('hoc -_id')
+    console.log(otherClasses)
     if(otherClasses[0].hoc === null ) {
       throw " no other department in this class"
     }
@@ -158,7 +159,7 @@ async function get_other_classes( {department,class_id} ) {
     
     return otherClasses
   } catch (error) {
-    
+    console.log(error)
     throw error
   }
 }
