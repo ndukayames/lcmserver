@@ -14,6 +14,9 @@ const classchema = new Schema({
   class_id : { type: String, required: true },
   assignment: {type: Boolean, required: true},
   class_note : {type: String, required: false},
+  lat : { type: Number, required: true },
+  long : { type: Number, required: true },
+  address: {type: String, required: true},
   date_started: { type: Date, default: Date.now }
 })
 
