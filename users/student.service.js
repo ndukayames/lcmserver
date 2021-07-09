@@ -17,7 +17,7 @@ module.exports = {
 async function authenticate({ matric_number, password, uid }) {
 
   try {
-    if (uid) {
+    // if (uid) {
       const student = await Student.findOne({ matric_number});
       if(student){
         if(bcrypt.compareSync(password, student.password)) {
@@ -45,7 +45,7 @@ async function authenticate({ matric_number, password, uid }) {
       // } else {
       //   throw "incorrect matric number"
       // }
-    }
+    // }
     //  else {
     //   throw "can't authenticate device"
     // }
