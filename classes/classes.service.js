@@ -22,11 +22,19 @@ module.exports = {
 }
 
 async function create_class(classParam) {
-  let new_class = new Classes(classParam)
   try {
-    await new_class.save()
+    let finder = await Classes.find({
+      course: classParam.course,
+      department: classParam.department,
+      event: 0
+    })
+    if(finder.length > 0) {
+      throw "end existing ongoing class for this course"
+    } else{
+      let new_class = new Classes(classParam)
+      await new_class.save()
+    }
   } catch (error) {
-    
     throw error
   }
 }

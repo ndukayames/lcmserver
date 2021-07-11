@@ -15,7 +15,7 @@ module.exports = {
 };
 
 async function authenticate({ matric_number, password, uid }) {
-
+console.log('login')
   try {
     // if (uid) {
       const student = await Student.findOne({ matric_number});
