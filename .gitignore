@@ -41,7 +41,7 @@ build/Release
 node_modules/
 jspm_packages/
 submissions-uploads/
-# new-assignment
+new-assignment/
 # TypeScript v1 declaration files
 typings/
 
