@@ -34,7 +34,6 @@ coverage
 # nyc test coverage
 .nyc_output
 
-<<<<<<< HEAD
 # Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
@@ -50,27 +49,13 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-
+submissions-uploads/
+new-assignment
 # TypeScript v1 declaration files
 typings/
 
 # TypeScript cache
 *.tsbuildinfo
-=======
-# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
-.grunt
-
-# node-waf configuration
-.lock-wscript
-
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-
-# Dependency directories
-node_modules
-jspm_packages
-typings
->>>>>>> 77e639e9b341268b20193c5314d8e99cf612cc1a
 
 # Optional npm cache directory
 .npm
