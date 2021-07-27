@@ -84,8 +84,7 @@ async function complete_lecturer_signup(id,lectParam) {
 }
 
 async function get_hoc_lecturer({department}) {
-  // get lecturers in hoc department
-
+  // get lecturers in hoc's department
   try {
     const lecturers = await Lecturer
     .find({department});
