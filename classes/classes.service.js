@@ -243,7 +243,7 @@ async function get_lect_dept_attendance_log({department,class_id}) {
     let logs = await Classes.find({department,class_id})
     .populate('students', '-password')
     .select('students')
-    
+    console.log(logs)
     if(logs) {
       
       return logs
