@@ -222,7 +222,7 @@ async function check_course_attendance(_id,{class_id}) {
 async function get_dept_attendance_log(_id,{class_id}) {
   //for hocs
   try {
-    let checker = await Classes.find({class_id: class_id, hoc: _id})
+    let checker = await Classes.findOne({class_id: class_id, hoc: _id})
     .populate('students', '-password')
     .select('students')
     if(checker) {
@@ -240,10 +240,10 @@ async function get_lect_dept_attendance_log({department,class_id}) {
 
   //for lecturers to get attendance logs for specified departments
   try {
-    let logs = await Classes.find({department,class_id})
+    let logs = await Classes.findOne({department,class_id})
     .populate('students', '-password')
     .select('students')
-    console.log(logs)
+    
     if(logs) {
       
       return logs

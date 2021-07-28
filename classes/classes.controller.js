@@ -211,6 +211,7 @@ async function get_dept_attendance_log( req, res ) {
 async function get_lect_dept_attendance_log( req, res ) {
   try {
     let logs = await classService.get_lect_dept_attendance_log(req.body)
+    console.log(123,logs)
     res.json({
       success: true,
       msg: 'Student is in class',
