@@ -240,7 +240,7 @@ async function get_lect_dept_attendance_log({department,class_id}) {
 
   //for lecturers to get attendance logs for specified departments
   try {
-    let logs = await Classes.findOne({department,class_id})
+    let logs = await Classes.find({department,class_id})
     .populate('students', '-password')
     .select('students')
     
