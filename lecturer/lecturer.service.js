@@ -94,7 +94,6 @@ async function get_hoc_lecturer({department}) {
     } 
     return lecturers
   } catch (error) {
-
     throw error
   }
 }
